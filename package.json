@@ -1,0 +1,15 @@
+{
+  "name": "eric.wtf",
+  "version": "0.0.1",
+  "description": "homepage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Eric Ellingson <ellingsonster@gmail.com> (http://xuomo.com)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.4"
+  }
+}
