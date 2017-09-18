@@ -4,7 +4,7 @@ const path = require("path");
 const express = require("express");
 const router = express.Router();
 
-const config = require("../../config");
+const config = require("../config");
 
 router.get("/", (req, res) => {
 	fs.readFile(path.join(config.viewspath, "./index.html"), "utf8", (err, html) => {

@@ -1,0 +1,41 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i');
+body {
+	font-family: "Roboto", sans-serif;
+	font-weight:lighter;
+}
+#canvas {
+	position: absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	cursor: url(/static/images/spaceship.png) 50 32, auto;
+}
+h1 {
+	margin:0;
+	padding:0;
+	font-size:1em;
+	font-weight:normal;
+	color:rgba(255, 255, 255, 0.5);
+	z-index:9999;
+	position: absolute;
+	bottom:5px;
+	left:5px;
+}
+
+.space-link {
+	position: fixed;
+	float:left;
+	/*color:white;*/
+		color:rgba(0, 0, 0, 1);
+	text-shadow: #FFF 0px 0px 20px;
+	z-index:9999;
+	text-decoration: none;
+	transition: 0.8s color;
+}
+.space-link:hover {
+	color:white;
+/*	color:rgba(255, 0, 0, 0.8);
+	font-style: italic;
+	text-shadow: #FF0 0px 0px 5px;*/
+}
