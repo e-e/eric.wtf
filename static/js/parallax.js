@@ -5,7 +5,7 @@ const links = [
 	{anchor: "stackoverflow", href: "https://stackoverflow.com/users/2543424/e-e?tab=profile"},
 	{anchor: "hackerrank", href: "https://www.hackerrank.com/xuomo"},
 ];
-console.log(links);
+// console.log(links);
 
 // var _w = window.innerWidth * 0.99;
 // var _h = window.innerHeight * 0.98;
@@ -29,7 +29,8 @@ Game.Parallax = {
 	levels: 3,
 	delta_theta_r: Math.PI / 2,
 	objStartRad: 2,
-	starNumCnst: 15
+	starNumCnst: 15,
+	xSpeed: 0.1,
 };
 
 Game.Parallax.Particle = function(z, twinkle) {
@@ -53,7 +54,7 @@ Game.Parallax.Particle = function(z, twinkle) {
 	this.r = (Game.Parallax.objStartRad / this.z);
 
 	this.update = function(d_theta) {
-		this.x += 1 / ( 2 * this.z * Math.sin( d_theta / 2) );
+		this.x += (Game.Parallax.xSpeed * 2) / ( 2 * this.z * Math.sin( d_theta / 2) );
 		// cycle the stars to the other side if they reach
 		if (this.x > Game._w + this.r) {
 			this.x = 0;
@@ -102,7 +103,7 @@ Game.Parallax.LinkParticle = function(link, z, twinkle) {
 	this.linkAppended = false;
 	this.offsetWidth = 20;
 	let fontSize = (24 / z).toString();
-	console.log(z, fontSize);
+	// console.log(z, fontSize);
 	this.link.style.fontSize = fontSize + "px";
 
 	
@@ -129,7 +130,7 @@ Game.Parallax.LinkParticle = function(link, z, twinkle) {
 
 	this.update = function(d_theta) {
 		this.r = this.offsetWidth;
-		this.x += 1 / ( 2 * this.z * Math.sin( d_theta / 2) );
+		this.x += Game.Parallax.xSpeed / ( 2 * this.z * Math.sin( d_theta / 2) );
 		// cycle the stars to the other side if they reach
 		if (this.x > Game._w + this.r) {
 			this.x = -this.r;
@@ -149,10 +150,10 @@ Game.Parallax.LinkParticle = function(link, z, twinkle) {
 	this.draw = function() {
 		if (!this.linkAppended) {
 			document.body.appendChild(this.link);
-			console.log(this.link);
+			// console.log(this.link);
 			this.linkAppended = true;
 			this.offsetWidth = this.link.offsetWidth;
-			console.dir(this.link.offsetWidth);
+			// console.dir(this.link.offsetWidth);
 		}
 		if (this.twinkle) {
 			var rnd = Math.random();
