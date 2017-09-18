@@ -1,11 +1,21 @@
 (function() {
 	window.onload = main;
+	function createScaleSelect() {
+		let scales = Notes.scales;
+		let select = document.querySelector("#scales");
+		Object.keys(scales).forEach(scale => {
+			const option = document.createElement("option");
+			option.value = scale;
+			option.innerText = scale;
+			select.appendChild(option);
+		});
+		select.addEventListener("change", function(e) {
+			console.log(this.value);
+			Game.Sound.scale = Notes.selectScaleByName(this.value);
+			console.log(Game.Sound.scale);
+		});
+	}
 	function main() {
-		const links = [
-			{anchor: "github", href: "https://github.com/e-e"},
-			{anchor: "stackoverflow", href: "https://stackoverflow.com/users/2543424/e-e?tab=profile"},
-			{anchor: "linkedin", href: "https://www.linkedin.com/in/eric-ellingson/"},
-			{anchor: "hackerrank", href: "https://www.hackerrank.com/xuomo"},
-		];
+		createScaleSelect();
 	}
 })();
