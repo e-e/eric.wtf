@@ -39,52 +39,55 @@
 	}
 
 	Game.Sound = {
+		chordInterval: 4,
 		muteButton: document.querySelector("#mute"),
 		notes: Notes.selectScaleByName("C# minor"),
-		getFreq(y) {
+		calcFreq(y) {
 			let yN = normalize(y, Game.Sound.notes.scale.length, 0, window.innerHeight, 0);
-			// console.log("yN", yN);
-			return Game.Sound.notes.scale[yN].freq;
+			let yN_1 = yN - Game.Sound.chordInterval;
+			if (yN_1 < 0) {
+				yN_1 = Game.Sound.notes.scale.length - 1 + yN_1;
+			}
+			let freq1 = Game.Sound.notes.scale[yN].freq;
+			let freq2 = Game.Sound.notes.scale[yN_1].freq;
+			Game.Sound.playNote(freq1);
+			// Game.Sound.playNote(freq2);
 		},
-		// getVolume(z) {
-		// 	let zN = normalize(z, )
-		// },
+		playNote(freq) {
+			let sineWave = new Pizzicato.Sound({
+				source: "wave",
+				options: {
+					frequency: freq
+				}
+			});
+			sineWave.attack = 4;
+			sineWave.volume = 0.1 ;
+			sineWave.release = 0.9;
+
+			var reverb = new Pizzicato.Effects.Reverb({
+				time: 2,
+				decay: 2,
+				reverse: false,
+				mix: 0.9
+			});
+			var delay = new Pizzicato.Effects.PingPongDelay({
+				feedback: 0.6,
+				time:0.4,
+				mix:0.5
+			});
+			sineWave.addEffect(delay);
+			sineWave.addEffect(reverb);
+
+			sineWave.on("play", function() {
+				setTimeout(() => {
+				sineWave.stop()
+				}, 500);
+			});
+			sineWave.play();
+		},
 		play(y, z) {
 			if (!Game.Sound.muteButton.checked) {
-				let sineWave = new Pizzicato.Sound({
-					source: "wave",
-					options: {
-						frequency: Game.Sound.getFreq(y)
-					}
-				});
-				sineWave.attack = 4;
-				sineWave.volume = 0.01 ;
-				sineWave.release = 0.9;
-				// sineWave.addEffect(new Pizzicato.Effects.Delay({
-				// 	feedback: 0.6,
-				// 	time:0.4,
-				// 	mix:0.5
-				// }));
-				var reverb = new Pizzicato.Effects.Reverb({
-					time: 0.01,
-					decay: 0.01,
-					reverse: false,
-					mix: 0.5
-				});
-				var delay = new Pizzicato.Effects.PingPongDelay({
-					feedback: 0.6,
-					time:0.4,
-					mix:0.5
-				});
-				sineWave.addEffect(delay);
-				sineWave.addEffect(reverb);
-
-				sineWave.on("play", function() {
-					setTimeout(() => {
-					sineWave.stop()
-					}, 1000);
-				});
-				sineWave.play();
+				this.calcFreq(y);
 			}
 		}
 	};
@@ -297,7 +300,6 @@
 		(new Game.Parallax.ParticleGroup(2.5)),
 		(new Game.Parallax.ParticleGroup(3, true)),
 		(new Game.Parallax.ParticleGroup(4.2, true)),
-		(new Game.Parallax.ParticleGroup(5, true)),
 		(new Game.Parallax.ParticleGroup(15, true)),
 		(new Game.Parallax.LinkParticleGroup(links, 1)),
 		(new Game.Parallax.LinkParticleGroup(links, 2)),
