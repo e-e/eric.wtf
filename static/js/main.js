@@ -10,9 +10,7 @@
 			select.appendChild(option);
 		});
 		select.addEventListener("change", function(e) {
-			console.log(this.value);
 			Game.Sound.scale = Notes.selectScaleByName(this.value);
-			console.log(Game.Sound.scale);
 		});
 	}
 	function main() {

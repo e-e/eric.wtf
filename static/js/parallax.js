@@ -1,9 +1,15 @@
 (function() {
 	const links = [
-		{anchor: "github", href: "https://github.com/e-e"},
-		{anchor: "linkedin", href: "https://www.linkedin.com/in/eric-ellingson/"},
-		{anchor: "stackoverflow", href: "https://stackoverflow.com/users/2543424/e-e?tab=profile"},
-		{anchor: "hackerrank", href: "https://www.hackerrank.com/xuomo"},
+		{ anchor: "github", href: "https://github.com/e-e" },
+		{
+			anchor: "linkedin",
+			href: "https://www.linkedin.com/in/eric-ellingson/"
+		},
+		{
+			anchor: "stackoverflow",
+			href: "https://stackoverflow.com/users/2543424/e-e?tab=profile"
+		}
+		// {anchor: "hackerrank", href: "https://www.hackerrank.com/xuomo"},
 	];
 	// console.log(links);
 
@@ -16,14 +22,13 @@
 	Game._h = _h;
 	Game._w = _w;
 
-	var canvas = document.getElementById('canvas');
-	var ctx = canvas.getContext('2d');
-	canvas.style.backgroundColor = '#000';
-	canvas.setAttribute('width', Game._w);
-	canvas.setAttribute('height', Game._h);
+	var canvas = document.getElementById("canvas");
+	var ctx = canvas.getContext("2d");
+	canvas.style.backgroundColor = "#000";
+	canvas.setAttribute("width", Game._w);
+	canvas.setAttribute("height", Game._h);
 
-	Game.angVel = Math.PI * (3/2);
-
+	Game.angVel = Math.PI * (3 / 2);
 
 	Game.Parallax = {
 		levels: 3,
@@ -31,11 +36,13 @@
 		objStartRad: 2,
 		starNumCnst: 15,
 		// xSpeed: 1,
-		xSpeed: 0.1,
+		xSpeed: 0.1
 	};
 
 	function normalize(value, max_p, min_p, max, min) {
-		return Math.floor((( max_p - min_p ) / ( max - min ) * ( value - max)) + max_p);
+		return Math.floor(
+			(max_p - min_p) / (max - min) * (value - max) + max_p
+		);
 	}
 
 	Game.Sound = {
@@ -43,7 +50,13 @@
 		muteButton: document.querySelector("#mute"),
 		notes: Notes.selectScaleByName("C# minor"),
 		calcFreq(y) {
-			let yN = normalize(y, Game.Sound.notes.scale.length, 0, window.innerHeight, 0);
+			let yN = normalize(
+				y,
+				Game.Sound.notes.scale.length,
+				0,
+				window.innerHeight,
+				0
+			);
 			let yN_1 = yN - Game.Sound.chordInterval;
 			if (yN_1 < 0) {
 				yN_1 = Game.Sound.notes.scale.length - 1 + yN_1;
@@ -61,7 +74,7 @@
 				}
 			});
 			sineWave.attack = 4;
-			sineWave.volume = 0.1 ;
+			sineWave.volume = 0.1;
 			sineWave.release = 0.9;
 
 			var reverb = new Pizzicato.Effects.Reverb({
@@ -72,15 +85,15 @@
 			});
 			var delay = new Pizzicato.Effects.PingPongDelay({
 				feedback: 0.6,
-				time:0.4,
-				mix:0.5
+				time: 0.4,
+				mix: 0.5
 			});
 			sineWave.addEffect(delay);
 			sineWave.addEffect(reverb);
 
 			sineWave.on("play", function() {
 				setTimeout(() => {
-				sineWave.stop()
+					sineWave.stop();
 				}, 500);
 			});
 			sineWave.play();
@@ -93,7 +106,7 @@
 	};
 
 	Game.Parallax.Particle = function(z, twinkle) {
-		var theta = (Math.PI / 4) * Math.random();
+		var theta = Math.PI / 4 * Math.random();
 		this.theta = theta;
 		// x and y need to span for one full length on either side of the main game window
 		// this is because the 'stars' will move AT MOST one width of the screen either direction,
@@ -105,15 +118,16 @@
 
 		var rnd = Math.random();
 
-		if (rnd > 0.4) this.clr = [255,255,255];
-		else if (rnd > 0.2) this.clr = [255,255,200];
-		else this.clr = [175,175,255];
+		if (rnd > 0.4) this.clr = [255, 255, 255];
+		else if (rnd > 0.2) this.clr = [255, 255, 200];
+		else this.clr = [175, 175, 255];
 
 		// this.r = this.z * Math.tan(theta);
-		this.r = (Game.Parallax.objStartRad / this.z);
+		this.r = Game.Parallax.objStartRad / this.z;
 
 		this.update = function(d_theta) {
-			this.x += (Game.Parallax.xSpeed * 2) / ( 2 * this.z * Math.sin( d_theta / 2) );
+			this.x +=
+				Game.Parallax.xSpeed * 2 / (2 * this.z * Math.sin(d_theta / 2));
 			// cycle the stars to the other side if they reach
 			if (this.x > Game._w + this.r) {
 				this.x = 0;
@@ -121,7 +135,7 @@
 				Game.Sound.play(this.y);
 			} else if (this.x < -this.r) {
 				this.x = Game._w;
-				this.y = Math.random() * Game._h; 
+				this.y = Math.random() * Game._h;
 			} else if (this.y > Game._h + this.r) {
 				this.x = Math.random() * Game._w;
 				this.y = 0;
@@ -136,12 +150,35 @@
 				var rnd = Math.random();
 
 				if (rnd >= 0.05) {
-					color = 'rgba(' + this.clr[0] + ',' + this.clr[1] + ',' + this.clr[2] + ',0.5)';
+					color =
+						"rgba(" +
+						this.clr[0] +
+						"," +
+						this.clr[1] +
+						"," +
+						this.clr[2] +
+						",0.5)";
 				} else {
-					color = 'rgba(' + this.clr[0] + ',' + this.clr[1] + ',' + this.clr[2] + ',' + (rnd).toString() + ')';
+					color =
+						"rgba(" +
+						this.clr[0] +
+						"," +
+						this.clr[1] +
+						"," +
+						this.clr[2] +
+						"," +
+						rnd.toString() +
+						")";
 				}
 			} else {
-				color = 'rgba(' + this.clr[0] + ',' + this.clr[1] + ',' + this.clr[2] + ',0.5)';
+				color =
+					"rgba(" +
+					this.clr[0] +
+					"," +
+					this.clr[1] +
+					"," +
+					this.clr[2] +
+					",0.5)";
 			}
 
 			ctx.save();
@@ -166,8 +203,7 @@
 		// console.log(z, fontSize);
 		this.link.style.fontSize = fontSize + "px";
 
-		
-		var theta = (Math.PI / 4) * Math.random();
+		var theta = Math.PI / 4 * Math.random();
 		this.theta = theta;
 		// x and y need to span for one full length on either side of the main game window
 		// this is because the 'stars' will move AT MOST one width of the screen either direction,
@@ -179,25 +215,25 @@
 
 		var rnd = Math.random();
 
-		if (rnd > 0.4) this.clr = [255,255,255];
-		else if (rnd > 0.2) this.clr = [255,255,200];
-		else this.clr = [175,175,255];
+		if (rnd > 0.4) this.clr = [255, 255, 255];
+		else if (rnd > 0.2) this.clr = [255, 255, 200];
+		else this.clr = [175, 175, 255];
 
 		// this.r = this.z * Math.tan(theta);
 		// this.r = (Game.Parallax.objStartRad / this.z);
 		this.r = this.offsetWidth;
 
-
 		this.update = function(d_theta) {
 			this.r = this.offsetWidth;
-			this.x += Game.Parallax.xSpeed / ( 2 * this.z * Math.sin( d_theta / 2) );
+			this.x +=
+				Game.Parallax.xSpeed / (2 * this.z * Math.sin(d_theta / 2));
 			// cycle the stars to the other side if they reach
 			if (this.x > Game._w + this.r) {
 				this.x = -this.r;
 				this.y = Math.random() * Game._h;
 			} else if (this.x < -this.r) {
 				this.x = Game._w;
-				this.y = Math.random() * Game._h; 
+				this.y = Math.random() * Game._h;
 			} else if (this.y > Game._h + this.r) {
 				this.x = Math.random() * Game._w;
 				this.y = 0;
@@ -219,12 +255,35 @@
 				var rnd = Math.random();
 
 				if (rnd >= 0.05) {
-					color = 'rgba(' + this.clr[0] + ',' + this.clr[1] + ',' + this.clr[2] + ',0.5)';
+					color =
+						"rgba(" +
+						this.clr[0] +
+						"," +
+						this.clr[1] +
+						"," +
+						this.clr[2] +
+						",0.5)";
 				} else {
-					color = 'rgba(' + this.clr[0] + ',' + this.clr[1] + ',' + this.clr[2] + ',' + (rnd).toString() + ')';
+					color =
+						"rgba(" +
+						this.clr[0] +
+						"," +
+						this.clr[1] +
+						"," +
+						this.clr[2] +
+						"," +
+						rnd.toString() +
+						")";
 				}
 			} else {
-				color = 'rgba(' + this.clr[0] + ',' + this.clr[1] + ',' + this.clr[2] + ',0.5)';
+				color =
+					"rgba(" +
+					this.clr[0] +
+					"," +
+					this.clr[1] +
+					"," +
+					this.clr[2] +
+					",0.5)";
 			}
 			this.link.style.top = this.y + "px";
 			this.link.style.left = this.x + "px";
@@ -241,7 +300,11 @@
 		if (this.twinkle === undefined) this.twinkle = false;
 
 		for (var i = 0; i < this.links.length; i++) {
-			this.particles[i] = new Game.Parallax.LinkParticle(this.links[i], this.z, this.twinkle);
+			this.particles[i] = new Game.Parallax.LinkParticle(
+				this.links[i],
+				this.z,
+				this.twinkle
+			);
 		}
 
 		this.update = function() {
@@ -272,7 +335,10 @@
 		if (this.twinkle === undefined) this.twinkle = false;
 
 		for (var i = 0; i < this.n; i++) {
-			this.particles[i] = new Game.Parallax.Particle(this.z, this.twinkle);
+			this.particles[i] = new Game.Parallax.Particle(
+				this.z,
+				this.twinkle
+			);
 		}
 
 		this.update = function() {
@@ -295,23 +361,23 @@
 	};
 
 	Game.Parallax.objects = [
-		(new Game.Parallax.ParticleGroup(1.2)),
-		(new Game.Parallax.ParticleGroup(1.5)),
-		(new Game.Parallax.ParticleGroup(2.5)),
-		(new Game.Parallax.ParticleGroup(3, true)),
-		(new Game.Parallax.ParticleGroup(4.2, true)),
-		(new Game.Parallax.ParticleGroup(15, true)),
-		(new Game.Parallax.LinkParticleGroup(links, 1)),
-		(new Game.Parallax.LinkParticleGroup(links, 2)),
-		(new Game.Parallax.LinkParticleGroup(links, 4)),
-		(new Game.Parallax.LinkParticleGroup(links, 6)),
+		new Game.Parallax.ParticleGroup(1.2),
+		new Game.Parallax.ParticleGroup(1.5),
+		new Game.Parallax.ParticleGroup(2.5),
+		new Game.Parallax.ParticleGroup(3, true),
+		new Game.Parallax.ParticleGroup(4.2, true),
+		new Game.Parallax.ParticleGroup(15, true),
+		new Game.Parallax.LinkParticleGroup(links, 1),
+		new Game.Parallax.LinkParticleGroup(links, 2),
+		new Game.Parallax.LinkParticleGroup(links, 4),
+		new Game.Parallax.LinkParticleGroup(links, 6)
 	];
 
 	Game.Parallax.update = function() {
 		for (var i = 0; i < Game.Parallax.objects.length; i++) {
 			Game.Parallax.objects[i].update();
 		}
-	}
+	};
 
 	Game.Parallax.draw = function() {
 		ctx.save();
@@ -322,40 +388,39 @@
 		}
 
 		ctx.restore();
-	}
+	};
 
 	Game.Utility = {};
 
 	Game.Utility.Frame = (function() {
-		return window.requestAnimationFrame ||
+		return (
+			window.requestAnimationFrame ||
 			window.webkitRequestAnimationFrame ||
 			window.mozRequestAnimationFrame ||
 			window.msRequestAnimationFrame ||
-
 			// assume 'element' is visible
-			function (callback, element) {
+			function(callback, element) {
 				var self = this,
 					start,
 					finish;
 
-					window.setTimeout(function() {
-						start = +new Date(); // <=> new Date().getTime()
-						callback(start);
-						finish = +new Date();
+				window.setTimeout(function() {
+					start = +new Date(); // <=> new Date().getTime()
+					callback(start);
+					finish = +new Date();
 
-						self.timeout = 1000 / 60 - (finish - start);
-					}, self.timeout);
-			};
+					self.timeout = 1000 / 60 - (finish - start);
+				}, self.timeout);
+			}
+		);
 	})();
 
-	Game.updateLinks = function() {
-
-	};
+	Game.updateLinks = function() {};
 	Game.update = function() {
-		canvas.setAttribute('width', Game._w);
-		canvas.setAttribute('height', Game._h);
+		canvas.setAttribute("width", Game._w);
+		canvas.setAttribute("height", Game._h);
 		Game.Parallax.update();
-	}
+	};
 
 	Game.draw = function() {
 		Game.Parallax.draw();
@@ -368,7 +433,6 @@
 
 		// continue main game loop function
 		Game.Utility.Frame.call(window, Game.Run);
-
 	};
 
 	window.addEventListener("resize", function(e) {
@@ -377,10 +441,8 @@
 		Game._h = window.innerWidth;
 	});
 
-
-	// actually starts everything 
+	// actually starts everything
 	Game.Utility.Frame.call(window, Game.Run);
 
 	window.Game = Game;
 })();
-	
