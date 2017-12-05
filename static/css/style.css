@@ -57,3 +57,7 @@ label[for='mute'] {
   color: white;
   line-height: 1em;
 }
+#mouse-images {
+  position: absolute;
+  left: -999px;
+}
