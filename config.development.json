@@ -1,0 +1,11 @@
+{
+  "url": "http://localhost:8880/ramen",
+  "database": {
+    "client": "sqlite3",
+    "connection": {
+      "filename": "content/data/ghost.db"
+    },
+    "useNullAsDefault": true,
+    "debug": false
+  }
+}
