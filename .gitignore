@@ -1,4 +1,6 @@
 node_modules
 .DS_Store
 logs/*
-config.js
+config/production.js
+config/test.js
+config/development.js
