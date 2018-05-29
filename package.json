@@ -4,13 +4,14 @@
   "description": "homepage",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
-    "start": "node index.js"
+    "test": "cross-env NODE_ENV=test",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "start": "cross-env NODE_ENV=production node index.js"
   },
   "author": "Eric Ellingson <ellingsonster@gmail.com> (http://xuomo.com)",
   "license": "MIT",
   "dependencies": {
+    "cross-env": "^5.1.6",
     "express": "^4.15.4",
     "sharp": "^0.20.2"
   },

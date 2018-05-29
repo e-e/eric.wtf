@@ -1,19 +1,7 @@
-const fs = require("fs");
-const path = require("path");
-
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const controller = require('../controllers/slackmojify');
 
-const config = require("../config");
-
-router.get("/", (req, res) => {
-	fs.readFile(path.join(config.viewspath, "./slackmojify.html"), "utf8", (err, html) => {
-		if (err) {
-			throw err;
-			return;
-		}
-		res.send(html);
-	});
-});
+router.get('/', controller.index);
 
 module.exports = router;
