@@ -1,9 +1,9 @@
-(function() {
-  (function(i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r;
+(function () {
+  (function (i, s, o, g, r, a, m) {
+    i["GoogleAnalyticsObject"] = r;
     (i[r] =
       i[r] ||
-      function() {
+      function () {
         (i[r].q = i[r].q || []).push(arguments);
       }),
       (i[r].l = 1 * new Date());
@@ -14,11 +14,11 @@
   })(
     window,
     document,
-    'script',
-    'https://www.google-analytics.com/analytics.js',
-    'ga'
+    "script",
+    "https://www.google-analytics.com/analytics.js",
+    "ga"
   );
 
-  ga('create', 'UA-105197390-1', 'auto');
-  ga('send', 'pageview');
+  ga("create", "UA-105197390-1", "auto");
+  ga("send", "pageview");
 })();
