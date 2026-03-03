@@ -17,6 +17,9 @@ app.engine("handlebars", exphbs());
 app.set("view engine", "handlebars");
 
 app.use("/static", express.static(path.join(__dirname, "../static")));
+app.get("/ads.txt", (req, res) => {
+  res.sendFile(path.join(__dirname, "../ads.txt"));
+});
 app.use("/slackmojify", routes.slackmojify);
 app.use("/", routes.index);
 
